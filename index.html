@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Ушлепки</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Подключение CSS -->
+  <link rel="stylesheet" href="style.min.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Левое меню -->
+  <aside class="sidebar">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-logo">Ушлепки</div>
+
+      <form class="topbar-search" action="#" onsubmit="return false;">
+        <input
+          type="text"
+          class="topbar-search-input"
+          placeholder="Поиск постов"
+        >
+      </form>
+    </div>
+</header>
+  <!-- МЕНЮ ОТДЕЛЬНО ВНУТРИ РАМКИ -->
+  <div class="sidebar-inner">
+    <nav class="sidebar-nav">
+      <button class="nav-item nav-item-active" data-page="home">
+        <img src="menu-icons/feed.svg" alt="Лента" class="nav-icon">
+      </button>
+      <button class="nav-item" data-page="search">
+        <img src="menu-icons/explore.svg" alt="Поиск" class="nav-icon">
+      </button>
+      <button class="nav-item" data-page="notifications">
+        <img src="menu-icons/notifications.svg" alt="Уведомления" class="nav-icon">
+      </button>
+      <button class="nav-item" data-page="account">
+        <img src="menu-icons/user.svg" alt="Аккаунт" class="nav-icon">
+      </button>
+    </nav>
+  </div>
+</aside>
+
+
+    <!-- Основной контент -->
+    <main class="main-content">
+      <!-- Страница: Главная (лента постов) -->
+      <section class="page page-home" aria-label="Лента постов">
+        <!-- Форма создания поста -->
+        <section class="create-post" aria-label="Создать пост">
+          <div class="create-post-inner">
+            <form id="create-post-form">
+              <p id="post-error" class="post-error" style="display:none;">
+                не спамь, погоди минуту
+              </p>
+              <div class="create-post-header">
+              </div>
+
+              <div class="create-post-body">
+                <textarea
+                  id="post-text"
+                  name="text"
+                  class="post-input"
+                  placeholder="Напиши, че ты"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="create-post-footer">
+                <div class="create-post-actions">
+                  <label for="post-image" class="image-upload-label">
+                    <span class="image-upload-icon">📷</span>
+                    <span>Добавить фото</span>
+                    <input
+                      id="post-image"
+                      name="image"
+                      type="file"
+                      accept="image/*"
+                      class="image-upload-input"
+                    >
+                  </label>
+                </div>
+                <button type="submit" class="btn-primary">Опубликовать</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Лента постов -->
+        <section class="feed" aria-label="Лента">
+          <ul id="posts-list" class="posts-list">
+            <!-- Посты будут добавляться здесь JavaScript-ом -->
+          </ul>
+        </section>
+      </section>
+
+      <!-- Заглушки для других страниц (пока скрыты стилями / JS) -->
+      <section class="page page-search" aria-label="Поиск" hidden>
+        <h1>Поиск</h1>
+        <p>Страница поиска будет реализована позже.</p>
+      </section>
+
+      <section class="page page-notifications" aria-label="Уведомления" hidden>
+        <h1>Уведомления</h1>
+        <p>Страница уведомлений будет реализована позже.</p>
+      </section>
+
+      <section class="page page-account" aria-label="Аккаунт" hidden>
+        <h1>Аккаунт</h1>
+        <p>Страница аккаунта будет реализована позже.</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Подключение JavaScript -->
+  <script src="script.min.js"></script>
+</body>
+</html>
