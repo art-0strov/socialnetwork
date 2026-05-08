@@ -10,7 +10,7 @@
 <body>
   <div class="app">
     <!-- Левое меню -->
-  <aside class="sidebar">
+<aside class="sidebar desktop-only">
   <header class="topbar">
     <div class="topbar-inner">
       <div class="topbar-logo">Ушлепки</div>
@@ -114,6 +114,22 @@
       </section>
     </main>
   </div>
+
+    <!-- НОВОЕ МОБИЛЬНОЕ МЕНЮ -->
+  <nav class="mobile-bottom-nav">
+    <button class="nav-item nav-item-active" data-page="home">
+      <img src="menu-icons/feed.svg" alt="Лента" class="nav-icon">
+    </button>
+    <button class="nav-item" data-page="search">
+      <img src="menu-icons/explore.svg" alt="Поиск" class="nav-icon">
+    </button>
+    <button class="nav-item" data-page="notifications">
+      <img src="menu-icons/notifications.svg" alt="Уведомления" class="nav-icon">
+    </button>
+    <button class="nav-item" data-page="account">
+      <img src="menu-icons/user.svg" alt="Аккаунт" class="nav-icon">
+    </button>
+  </nav>
 
   <!-- Подключение JavaScript -->
   <script src="script.min.js"></script>
