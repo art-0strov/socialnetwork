@@ -387,12 +387,23 @@ body {
   border-radius: 20px;
   padding: 8px 16px;
   transition: all 0.15s ease;
-  font-size: 16px;
+  font-size: 14px;
+  transform: scale(1);
+}
+
+.like-button:active {
+  transform: scale(0.9);
+}
+
+.like-button:hover {
+  transform: scale(1.05);
 }
 
 .like-icon {
-  font-size: 18px;
-  transition: color 0.15s ease;
+  width: 18px;
+  height: 18px;
+  display: block;
+  margin-left: -15px;
 }
 
 .like-count {
@@ -400,20 +411,32 @@ body {
   font-weight: 500;
 }
 
-.like-button:hover {
-  background-color: rgba(244, 33, 46, 0.1);
+.comment-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 8px 16px;
+  transition: all 0.15s ease;
+  transform: scale(1);
 }
 
-.like-button:hover .like-icon {
-  color: #f4212e;
+.comment-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+  margin-left: -20px;
 }
 
-.like-button.liked .like-icon {
-  color: #f4212e;
+.comment-button:hover {
+  transform: scale(1.05);
 }
 
-.like-button.liked {
-  background-color: rgba(244, 33, 46, 0.1);
+.comment-button:active {
+  transform: scale(0.9);
 }
 
 /* Остальные страницы */
@@ -460,9 +483,8 @@ body {
 
 @media (max-width: 640px) {
   .app {
-    flex-direction: column;
-    gap: 16px;
-    padding: 0 12px;
+    padding: 0;
+    gap: 0;
   }
   
   .sidebar {
@@ -481,5 +503,42 @@ body {
     height: 44px;
     width: 44px;
     padding: 0;
+  }
+
+  .main-content {
+    max-width: 100%;
+  }
+
+  .page {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .create-post {
+    padding: 0;
+  }
+
+  .create-post-inner {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+
+  .feed {
+    padding: 0;
+  }
+
+  .post {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+
+  .posts-list .post:first-child,
+  .posts-list .post:last-child {
+    border-radius: 0;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 }
