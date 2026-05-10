@@ -584,7 +584,8 @@ body {
     width: 44px;
     height: 44px;
     border-radius: 22px;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: scale(1);
   }
 
   /* Убираем hover эффекты для мобильных устройств */
@@ -592,11 +593,13 @@ body {
     background-color: transparent !important;
   }
 
-  /* Делаем активный элемент более вытянутым (форма капсулы) */
+  /* Делаем активный элемент более вытянутым (форма капсулы) с анимацией */
   .mobile-bottom-nav .nav-item-active {
     width: 60px;
     border-radius: 30px;
     background-color: #EDC33E;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(237, 195, 62, 0.3);
   }
 
   .app {
