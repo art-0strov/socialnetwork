@@ -59,15 +59,18 @@
               </div>
 
               <div class="create-post-body">
+                <div class="post-input-avatar"></div>
                 <textarea
                   id="post-text"
                   name="text"
                   class="post-input"
-                  placeholder="Напиши, че ты"
-                  rows="3"
+                  placeholder="Что нового?"
+                  rows="1"
                   required
+                  maxlength="1000"
                 ></textarea>
               </div>
+</replace_in_file>
 
               <div class="create-post-footer">
                 <div class="create-post-actions">
@@ -130,6 +133,48 @@
       <img src="menu-icons/user.svg" alt="Аккаунт" class="nav-icon">
     </button>
   </nav>
+
+  <!-- Плавающая кнопка создания поста для мобильной версии -->
+  <button class="mobile-create-post-btn" id="mobile-create-post-btn">+</button>
+
+  <!-- Всплывающее окно создания поста для мобильной версии -->
+  <div class="mobile-create-post-modal" id="mobile-create-post-modal">
+    <div class="mobile-create-post-content">
+      <div class="mobile-create-post-header">
+        <div class="mobile-create-post-title">Создать пост</div>
+        <button class="mobile-close-btn" id="mobile-close-btn">×</button>
+      </div>
+      <form id="mobile-create-post-form">
+        <div class="mobile-post-input-container">
+          <div class="post-input-avatar"></div>
+          <textarea
+            id="mobile-post-text"
+            name="text"
+            class="post-input"
+            placeholder="Что нового?"
+            rows="3"
+            required
+            maxlength="1000"
+          ></textarea>
+        </div>
+        <div class="mobile-create-post-footer">
+          <label for="mobile-post-image" class="image-upload-label">
+            <span class="image-upload-icon">📷</span>
+            <span>Добавить фото</span>
+            <input
+              id="mobile-post-image"
+              name="image"
+              type="file"
+              accept="image/*"
+              class="image-upload-input"
+            >
+          </label>
+          <div class="char-count" id="mobile-char-count"></div>
+          <button type="submit" class="btn-primary">Опубликовать</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Подключение JavaScript -->
   <script src="script.min.js"></script>
