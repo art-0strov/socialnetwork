@@ -46,6 +46,8 @@ body {
   padding-left: 12px;
   transition: transform 0.15s ease;
   transform-origin: center;
+  min-width: 80px;
+  text-align: left;
 }
 
 .topbar-logo:hover {
@@ -716,36 +718,6 @@ body {
   border: none;
 }
 
-.mobile-post-input-container {
-  position: relative;
-  margin-bottom: 16px;
-}
-
-.mobile-post-input-container .post-input-avatar {
-  position: absolute;
-  left: 0;
-  top: 12px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #2d353e, #39424c);
-  flex-shrink: 0;
-  z-index: 1;
-}
-
-.mobile-post-input-container .post-input {
-  width: 100%;
-  padding-left: 50px;
-}
-
-.mobile-create-post-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 16px;
-  padding: 12px 0;
-}
-
 .mobile-create-post-header {
   display: flex;
   justify-content: space-between;
@@ -773,6 +745,61 @@ body {
   justify-content: center;
 }
 
+.mobile-post-input-container {
+  display: flex;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.mobile-post-input-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2d353e, #39424c);
+  flex-shrink: 0;
+  margin-right: 12px;
+}
+
+.mobile-user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e7e9ea;
+  margin-bottom: 4px;
+}
+
+.mobile-post-input-container textarea {
+  width: 100%;
+  min-height: 60px;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #e7e9ea;
+  font-size: 16px;
+  line-height: 1.4;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding-left: 0;
+}
+
+.mobile-post-input-container textarea::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-create-post-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding: 12px 0;
+}
+
 @media (max-width: 640px) {
   .mobile-create-post-btn {
     display: block;
@@ -794,20 +821,3 @@ body {
     bottom: 100px;
   }
 }
-</file_content>
-
-IMPORTANT: For any final changes to this file, use the final_file_content shown above as your reference. This content reflects the current state of the file, including any auto-formatting (e.g., if you used single quotes but the formatter converted them to double quotes). Always base your SEARCH/REPLACE operations on this final version to ensure accuracy.
-
-<environment_details>
-# Visual Studio Code Visible Files
-style.min.css
-
-# Current Time
-11/05/2026, 3:50:00 am (Europe/Moscow, UTC+3:00)
-
-# Context Window Usage
-177,000 / 256K tokens used (69%)
-
-# Current Mode
-ACT_MODE
-</environment_details>

@@ -2,8 +2,19 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Ушлепки</title>
+  <title>Yanot</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a1a1d">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Favicon for browser tabs -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- Web App Icons for mobile home screen -->
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="logo.png">
   <!-- Подключение CSS -->
   <link rel="stylesheet" href="style.min.css">
 </head>
@@ -13,7 +24,7 @@
 <aside class="sidebar desktop-only">
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="topbar-logo">Ушлепки</div>
+      <div class="topbar-logo">Yanot</div>
 
       <form class="topbar-search" action="#" onsubmit="return false;">
         <input
@@ -146,16 +157,19 @@
       </div>
       <form id="mobile-create-post-form">
         <div class="mobile-post-input-container">
-          <div class="post-input-avatar"></div>
-          <textarea
-            id="mobile-post-text"
-            name="text"
-            class="post-input"
-            placeholder="Что нового?"
-            rows="3"
-            required
-            maxlength="1000"
-          ></textarea>
+          <div class="mobile-post-input-avatar"></div>
+          <div class="mobile-user-info">
+            <div class="mobile-user-name">Гость</div>
+            <textarea
+              id="mobile-post-text"
+              name="text"
+              class="post-input"
+              placeholder="Что нового?"
+              rows="3"
+              required
+              maxlength="1000"
+            ></textarea>
+          </div>
         </div>
         <div class="mobile-create-post-footer">
           <label for="mobile-post-image" class="image-upload-label">
