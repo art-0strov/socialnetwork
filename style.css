@@ -115,6 +115,19 @@ body {
   -webkit-overflow-scrolling: touch;
   overflow-anchor: none;
   scrollbar-width: none; /* Firefox */
+  /* Улучшаем скролл на мобильных устройствах */
+  overscroll-behavior: contain;
+  scroll-snap-type: none;
+  touch-action: pan-y;
+}
+
+/* Восстанавливаем нативный скролл на мобильных устройствах */
+@media (max-width: 640px) {
+  .feed {
+    -webkit-overflow-scrolling: auto;
+    overscroll-behavior: auto;
+    touch-action: auto;
+  }
 }
 
 .feed::-webkit-scrollbar {
@@ -648,7 +661,7 @@ body {
 }
 
 /* Адаптив — ТОЧНО как Twitter */
-
+@media (max-width: 1024px) {
   .sidebar {
     width: 4.5rem;
     padding: 1rem 0.25rem;

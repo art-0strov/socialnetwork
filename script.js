@@ -79,7 +79,26 @@ document.addEventListener('DOMContentLoaded', function() {
       else if (pageType === 'account') iconPath = 'menu-icons/user.svg';
     }
 
-    icon.src = iconPath;
+    // Проверяем существует ли файл перед установкой src
+    // Это предотвращает ошибки 404 и исчезновение иконок
+    try {
+      // Создаем временный Image объект для проверки пути
+      const testImg = new Image();
+      testImg.onload = function() {
+        icon.src = iconPath;
+      };
+      testImg.onerror = function() {
+        console.warn(`Icon not found: ${iconPath}, using fallback`);
+        // Используем резервную иконку если основная не найдена
+        if (pageType === 'home') icon.src = 'menu-icons/feed.svg';
+        else if (pageType === 'search') icon.src = 'menu-icons/explore.svg';
+        else if (pageType === 'notifications') icon.src = 'menu-icons/notifications.svg';
+        else if (pageType === 'account') icon.src = 'menu-icons/user.svg';
+      };
+      testImg.src = iconPath;
+    } catch (e) {
+      console.error('Error loading icon:', e);
+    }
   }
 
   // Обработчики hover для меню
@@ -621,40 +640,42 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   /* Добавляем глобальный обработчик скролла колесика мыши */
-  document.addEventListener('wheel', function(e) {
-    // Находим текущий скроллируемый элемент
-    const scrollableElement = getCurrentScrollableElement();
+  // Отключаем на мобильных устройствах, чтобы не мешать нативному скроллу
+  if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    document.addEventListener('wheel', function(e) {
+      // Находим текущий скроллируемый элемент
+      const scrollableElement = getCurrentScrollableElement();
 
-    // Если есть скроллируемый элемент
-    if (scrollableElement) {
-      // Предотвращаем стандартное поведение скролла
-      e.preventDefault();
+      // Если есть скроллируемый элемент
+      if (scrollableElement) {
+        // Предотвращаем стандартное поведение скролла
+        e.preventDefault();
 
-      // Скроллим текущий элемент независимо от положения курсора
-      scrollableElement.scrollTop += e.deltaY;
-    }
-  }, { passive: false });
+        // Скроллим текущий элемент независимо от положения курсора
+        scrollableElement.scrollTop += e.deltaY;
+      }
+    }, { passive: false });
+  }
 
-  // Также добавляем обработчик для touch устройств
-  let touchStartY = 0;
+  // Удаляем кастомный обработчик touch устройств, чтобы использовать нативный скролл
+  // Это решит проблему с отсутствием инерционного скролла на мобильных устройствах
+  // document.addEventListener('touchstart', function(e) {
+  //   touchStartY = e.touches[0].clientY;
+  // }, { passive: false });
 
-  document.addEventListener('touchstart', function(e) {
-    touchStartY = e.touches[0].clientY;
-  }, { passive: false });
+  // document.addEventListener('touchmove', function(e) {
+  //   const scrollableElement = getCurrentScrollableElement();
 
-  document.addEventListener('touchmove', function(e) {
-    const scrollableElement = getCurrentScrollableElement();
+  //   if (scrollableElement) {
+  //     const touchY = e.touches[0].clientY;
+  //     const deltaY = touchStartY - touchY;
 
-    if (scrollableElement) {
-      const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
+  //     scrollableElement.scrollTop += deltaY;
+  //     touchStartY = touchY;
 
-      scrollableElement.scrollTop += deltaY;
-      touchStartY = touchY;
-
-      e.preventDefault();
-    }
-  }, { passive: false });
+  //     e.preventDefault();
+  //   }
+  // }, { passive: false });
 
   // Отдельный скроллбар у края окна
   const browserScrollbar = document.createElement('div');
