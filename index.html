@@ -9,14 +9,151 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- Favicon for browser tabs -->
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <!-- Web App Icons for mobile home screen -->
-  <link rel="apple-touch-icon" href="logo.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="logo.png">
+  <link rel="icon" href="favicon/favicon.ico" sizes="any">
+  <link rel="icon" href="favicon/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
+  <!-- Standard favicon sizes -->
+  <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96">
+  <!-- Web App Manifest icons -->
+  <link rel="icon" type="image/png" href="favicon/web-app-manifest-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="favicon/web-app-manifest-512x512.png" sizes="512x512">
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="favicon/site.webmanifest">
+  <!-- Safari pinned tab icon -->
+  <meta name="theme-color" content="#151518">
+  <!-- Microsoft application -->
+  <meta name="msapplication-TileColor" content="#151518">
+  <meta name="msapplication-TileImage" content="favicon/favicon-96x96.png">
   <!-- Подключение CSS -->
-  <link rel="stylesheet" href="style.min.css">
+  <link rel="stylesheet" href="style.min.css?v=8">
+  <!-- CRITICAL MOBILE STYLES - Inline to ensure they work -->
+  <style>
+      /* Avatar sizes - same for both desktop and mobile */
+      .post-avatar {
+        width: 2.2rem !important;
+        height: 2.2rem !important;
+      }
+
+      @media (max-width: 640px) {
+        /* Mobile-specific styles */
+        /* Hide create post block on mobile */
+        body .main-content .page-home .feed .create-post {
+          display: none !important;
+        }
+
+        /* Mobile create post avatar - slightly larger */
+        .mobile-post-input-avatar {
+          width: 2.4rem !important;
+          height: 2.4rem !important;
+        }
+
+        /* Mobile post styles - full width, no background, with borders */
+        .posts-list {
+          gap: 0 !important;
+          margin: 0 !important;
+          padding: 0 0 6rem 0 !important; /* Increased bottom padding for more empty space */
+          width: 100% !important;
+        }
+
+        .post {
+          border-left: none !important;
+          border-right: none !important;
+          border-radius: 0 !important;
+          background-color: transparent !important;
+          border: none !important;
+          border-top: 0.0625rem solid #2a2a2d !important;
+          margin: 0 !important;
+          padding: 1.1rem !important;
+          width: 100% !important;
+        }
+
+        .post-content {
+          background-color: transparent !important;
+        }
+
+        .post-image-wrapper {
+          background-color: #222224 !important;
+          border-radius: 1.25rem !important;
+        }
+
+        /* Mobile avatar sizes - slightly larger */
+        .post-avatar {
+          width: 2.4rem !important;
+          height: 2.4rem !important;
+        }
+
+      /* Align text with avatar on mobile */
+      .post-header {
+        align-items: center !important;
+      }
+
+      .post + .post {
+        border-top: 0.0625rem solid #2a2a2d !important;
+      }
+
+      .posts-list .post:first-child {
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        margin-top: 0 !important;
+        border-top: none !important;
+      }
+
+      .posts-list .post:last-child {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        margin-bottom: 0 !important;
+      }
+
+      /* Fix mobile layout issues */
+      .main-content {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .page-home {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .feed {
+        padding: 0 !important;
+      }
+
+      /* Fix positioning issues */
+      .app {
+        left: 0 !important;
+        padding-top: 3.25rem !important;
+        margin: 0 auto !important;
+      }
+
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      /* Hide topbar completely on mobile */
+      .topbar {
+        display: none !important;
+      }
+
+      .main-content {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+      }
+
+      /* Fix positioning for mobile without topbar */
+      .app {
+        padding-top: 0 !important;
+        position: relative !important;
+        min-height: 100vh !important;
+      }
+
+      .page-home {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="app">
@@ -54,78 +191,98 @@
   </div>
 </aside>
 
-
     <!-- Основной контент -->
     <main class="main-content">
       <!-- Страница: Главная (лента постов) -->
       <section class="page page-home" aria-label="Лента постов">
-        <!-- Форма создания поста -->
-        <section class="create-post" aria-label="Создать пост">
-          <div class="create-post-inner">
-            <form id="create-post-form">
-              <p id="post-error" class="post-error" style="display:none;">
-                не спамь, погоди минуту
-              </p>
-              <div class="create-post-header">
-              </div>
-
-              <div class="create-post-body">
-                <div class="post-input-avatar"></div>
-                <textarea
-                  id="post-text"
-                  name="text"
-                  class="post-input"
-                  placeholder="Что нового?"
-                  rows="1"
-                  required
-                  maxlength="1000"
-                ></textarea>
-              </div>
-</replace_in_file>
-
-              <div class="create-post-footer">
-                <div class="create-post-actions">
-                  <label for="post-image" class="image-upload-label">
-                    <span class="image-upload-icon">📷</span>
-                    <span>Добавить фото</span>
-                    <input
-                      id="post-image"
-                      name="image"
-                      type="file"
-                      accept="image/*"
-                      class="image-upload-input"
-                    >
-                  </label>
-                </div>
-                <button type="submit" class="btn-primary">Опубликовать</button>
-              </div>
-            </form>
-          </div>
-        </section>
-
         <!-- Лента постов -->
         <section class="feed" aria-label="Лента">
+            <!-- Форма создания поста -->
+            <section class="create-post" aria-label="Создать пост">
+            <div class="create-post-inner">
+              <form id="create-post-form">
+                <p id="post-error" class="post-error" style="display:none;">
+                  не спамь, погоди минуту
+                </p>
+                <div class="create-post-header">
+                </div>
+
+                <div class="create-post-body">
+                  <div class="post-input-container">
+                    <div class="post-input-avatar"></div>
+                    <textarea
+                      id="post-text"
+                      name="text"
+                      class="post-input"
+                      placeholder="Что нового?"
+                      rows="1"
+                      required
+                      maxlength="1000"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div class="create-post-footer">
+                  <div class="create-post-actions">
+                    <label for="post-image" class="image-upload-label">
+                      <span class="image-upload-icon">📷</span>
+                      <span>Добавить фото</span>
+                      <input
+                        id="post-image"
+                        name="image"
+                        type="file"
+                        accept="image/*"
+                        class="image-upload-input"
+                      >
+                    </label>
+                  </div>
+                  <button type="submit" class="btn-primary">Опубликовать</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
           <ul id="posts-list" class="posts-list">
             <!-- Посты будут добавляться здесь JavaScript-ом -->
           </ul>
         </section>
       </section>
 
-      <!-- Заглушки для других страниц (пока скрыты стилями / JS) -->
-      <section class="page page-search" aria-label="Поиск" hidden>
-        <h1>Поиск</h1>
-        <p>Страница поиска будет реализована позже.</p>
-      </section>
+        <!-- Страница: Поиск -->
+        <section class="page page-search" aria-label="Поиск" hidden>
+          <div class="page-content scrollable">
+            <h1>Поиск</h1>
+            <p>Страница поиска будет реализована позже.</p>
+            <!-- Добавим контент для скролла -->
+            <div style="height: 2000px; background: linear-gradient(to bottom, #2a2a2d, #1a1a1d); padding: 20px; border-radius: 16px; margin-top: 20px;">
+              <p style="color: #8b98a5; text-align: center; margin-top: 50%;">Прокрутите вниз, чтобы протестировать сохранение позиции скролла</p>
+            </div>
+          </div>
+        </section>
 
-      <section class="page page-notifications" aria-label="Уведомления" hidden>
-        <h1>Уведомления</h1>
-        <p>Страница уведомлений будет реализована позже.</p>
-      </section>
+        <!-- Страница: Уведомления -->
+        <section class="page page-notifications" aria-label="Уведомления" hidden>
+          <div class="page-content scrollable">
+            <h1>Уведомления</h1>
+            <p>Страница уведомлений будет реализована позже.</p>
+            <!-- Добавим контент для скролла -->
+            <div style="height: 2000px; background: linear-gradient(to bottom, #2a2a2d, #1a1a1d); padding: 20px; border-radius: 16px; margin-top: 20px;">
+              <p style="color: #8b98a5; text-align: center; margin-top: 50%;">Прокрутите вниз, чтобы протестировать сохранение позиции скролла</p>
+            </div>
+          </div>
+        </section>
 
-      <section class="page page-account" aria-label="Аккаунт" hidden>
-        <h1>Аккаунт</h1>
-        <p>Страница аккаунта будет реализована позже.</p>
-      </section>
+        <!-- Страница: Аккаунт -->
+        <section class="page page-account" aria-label="Аккаунт" hidden>
+          <div class="page-content scrollable">
+            <h1>Аккаунт</h1>
+            <p>Страница аккаунта будет реализована позже.</p>
+            <!-- Добавим контент для скролла -->
+            <div style="height: 2000px; background: linear-gradient(to bottom, #2a2a2d, #1a1a1d); padding: 20px; border-radius: 16px; margin-top: 20px;">
+              <p style="color: #8b98a5; text-align: center; margin-top: 50%;">Прокрутите вниз, чтобы протестировать сохранение позиции скролла</p>
+            </div>
+          </div>
+        </section>
     </main>
   </div>
 
@@ -155,6 +312,9 @@
         <div class="mobile-create-post-title">Создать пост</div>
         <button class="mobile-close-btn" id="mobile-close-btn">×</button>
       </div>
+      <p id="mobile-post-error" class="post-error" style="display:none;">
+        не спамь, погоди минуту
+      </p>
       <form id="mobile-create-post-form">
         <div class="mobile-post-input-container">
           <div class="mobile-post-input-avatar"></div>
@@ -190,7 +350,10 @@
     </div>
   </div>
 
+  <!-- Отдельный скроллбар у края окна -->
+  <div class="browser-scrollbar"></div>
+
   <!-- Подключение JavaScript -->
-  <script src="script.min.js"></script>
+  <script src="script.min.js?v=2"></script>
 </body>
 </html>

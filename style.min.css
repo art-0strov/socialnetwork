@@ -9,12 +9,146 @@ html,
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
+}
+
+html {
+  font-size: 110%; /* 10% увеличение - 17.6px вместо 16px */
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+.container {
+  max-width: 80rem; /* ~1408px */
+  padding: 2rem;
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
   background-color: #151518;
   color: #e7e9ea;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* SPA страницы с сохранением скролла */
+.page {
+  height: 100vh;
+  overflow-y: hidden; /* Убираем скролл со страницы */
+}
+
+.page-content.scrollable {
+  height: 100%;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Лента постов - скролл только здесь */
+.feed {
+  height: calc(100vh - 52px); /* Полная высота минус топбар (3.25rem = 52px) */
+  padding: 1.25rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-anchor: none;
+  scrollbar-width: thin; /* Firefox - тонкий скроллбар */
+  scrollbar-color: #39424c #1a1a1d; /* Цвет ползунка и трека */
+}
+
+.feed::-webkit-scrollbar {
+  width: 0.5rem; /* Тонкий скроллбар */
+}
+
+.feed::-webkit-scrollbar-thumb {
+  background-color: #39424c; /* Цвет ползунка */
+  border-radius: 4px;
+}
+
+.feed::-webkit-scrollbar-track {
+  background-color: #1a1a1d; /* Цвет трека */
+}
+
+/* Страница ленты - без скролла, только контейнер */
+.page-home {
+  height: auto;
+  min-height: 100vh;
+  overflow-y: hidden; /* Убираем скролл со страницы */
+}
+
+/* Контейнеры страниц с отдельными скроллбарами */
+.page-search .page-content.scrollable,
+.page-notifications .page-content.scrollable,
+.page-account .page-content.scrollable {
+  height: calc(100vh - 60px);
+  padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-anchor: none;
+  scrollbar-width: none; /* Firefox */
+}
+
+.page-search .page-content.scrollable::-webkit-scrollbar,
+.page-notifications .page-content.scrollable::-webkit-scrollbar,
+.page-account .page-content.scrollable::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Контейнер приложения */
+.app {
+  max-width: 43.75rem;
+  margin: 0 auto;
+  left: -2.625rem;
+  min-height: 100vh;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding-top: 3.575rem; /* Высота топбара + дополнительный отступ */
+  position: relative;
+}
+
+/* Лента постов - скролл только здесь */
+.feed {
+  height: calc(100vh - 52px); /* Полная высота минус топбар (3.25rem = 52px) */
+  padding: 1.25rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-anchor: none;
+  scrollbar-width: none; /* Firefox */
+}
+
+.feed::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Отдельный скроллбар у края окна */
+.browser-scrollbar {
+  position: fixed;
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  background-color: #1a1a1d;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.browser-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.25rem;
+  background-color: #39424c;
+  border-radius: 0.25rem;
+  pointer-events: auto;
+}
+
+/* Скрываем отдельный скроллбар на мобильных устройствах */
+@media (max-width: 640px) {
+  .browser-scrollbar {
+    display: none !important;
+  }
 }
 
 .topbar {
@@ -22,31 +156,31 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 52px;
+  height: 3.25rem; /* Стандартная высота */
   background-color: #1a1a1d;
-  border-bottom: 1px solid #2a2a2d;
+  border-bottom: 0.0625rem solid #2a2a2d;
   z-index: 1000;
 }
 
 .topbar-inner {
-  max-width: 700px;
+  max-width: 43.75rem;
   margin: 0 auto;
   padding: 0;
-  height: 52px;
+  height: 3.25rem; /* Стандартная высота */
   display: flex;
   align-items: center;
 }
 
 .topbar-logo {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   transform: rotate(2deg);
   line-height: 1;
-  padding-left: 12px;
+  padding-left: 0.75rem;
   transition: transform 0.15s ease;
   transform-origin: center;
-  min-width: 80px;
+  min-width: 5rem;
   text-align: left;
 }
 
@@ -56,19 +190,19 @@ body {
 
 /* ПОИСК В ШАПКЕ */
 .topbar-search {
-  margin-left: 16px;
+  margin-left: 1rem;
   flex: 0 0 auto;
 }
 
 .topbar-search-input {
-  width: 220px;
-  height: 32px;
-  padding: 0 12px;
+  width: 13.75rem; /* Стандартная длина */
+  height: 2rem; /* Стандартная высота */
+  padding: 0 0.75rem;
   border-radius: 999px;
-  border: 1px solid #39424c;
+  border: 0.0625rem solid #39424c;
   background-color: #1a1a1d;
   color: #e7e9ea;
-  font-size: 14px;
+  font-size: 0.875rem; /* Стандартный размер */
   outline: none;
 }
 
@@ -83,43 +217,42 @@ body {
 
 /* Контейнер приложения — БЕЗ padding/margin */
 .app {
-  max-width: 700px;
-  margin: 0 auto;
+  max-width: 43.75rem;
   min-height: 100vh;
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
   align-items: flex-start;
-  padding-top: 60px;
+  padding-top: 3.25rem; /* Высота топбара */
 }
 
 /* МЕНЮ — ФИКСИРОВАННАЯ ШИРИНА */
 .sidebar {
-  width: 72px;
+  width: 4.5rem; /* Стандартная ширина */
   flex-shrink: 0;
-  padding: 12px 0px 12px 4px;
+  padding: 0.75rem 0 0.75rem 0.25rem;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 50px;
+  gap: 0.75rem;
+  margin-top: 3.125rem;
 }
 
 .sidebar-logo-wrapper {
-  padding: 4px 0;
+  padding: 0.25rem 0;
 }
 
 .sidebar-inner {
   background-color: #151518;
-  border: 1px solid #2a2a2d;
-  border-radius: 32px;
-  padding: 12px 6px;
+  border: 0.0625rem solid #2a2a2d;
+  border-radius: 2rem;
+  padding: 0.75rem 0.375rem;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.375rem;
   flex: 1;
 }
 
 .logo-text {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   display: inline-block;
@@ -128,8 +261,8 @@ body {
   transition: transform 0.15s ease;
   line-height: 1;
   position: relative;
-  top: -5px;
-  left: -20px;
+  top: -0.3125rem;
+  left: -1.25rem;
 }
 
 .logo-text:hover {
@@ -139,15 +272,15 @@ body {
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 1.875rem;
 }
 
 .nav-item {
   width: 100%;
-  height: 48px;
+  height: 3rem;
   border: none;
   background: transparent;
-  border-radius: 22px;
+  border-radius: 1.375rem;
   cursor: pointer;
   transition: none;
   display: flex;
@@ -168,8 +301,8 @@ body {
 }
 
 .nav-icon {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 /* ЛЕНТА — СТРОГО ПО ЦЕНТРУ */
@@ -177,36 +310,42 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 37.5rem; /* Стандартная ширина */
 }
 
 .page {
   width: 100%;
-  max-width: 580px;
+  max-width: 36.25rem; /* Стандартная ширина */
   margin: 0 auto;
 }
 
 /* Форма поста */
 .create-post {
-  padding: 16px 0;
+  padding: 1rem 0;
 }
 
 .create-post-inner {
   background-color: #222224;
   border: none;
-  border-radius: 32px;
-  padding: 16px;
+  border-radius: 2rem;
+  padding: 0.75rem 1rem 1rem;
   width: 100%;
   position: relative;
-  min-height: 80px;
+  min-height: auto;
+}
+
+.post-input-container {
+  position: relative;
+  width: 100%;
+  margin-top: 0;
 }
 
 .post-input-avatar {
   position: absolute;
-  left: 16px;
-  top: 20px;
-  width: 42px;
-  height: 42px;
+  left: 0;
+  top: 0;
+  width: 2.625rem;
+  height: 2.625rem;
   border-radius: 50%;
   background: linear-gradient(135deg, #2d353e, #39424c);
   flex-shrink: 0;
@@ -222,13 +361,13 @@ body {
 .post-input {
   width: 100%;
   resize: none;
-  min-height: 24px;
-  max-height: 300px;
+  min-height: 1.5rem;
+  max-height: 18.75rem;
   border-radius: 0;
   border: none;
   outline: none;
-  padding: 8px 16px 8px 60px;
-  font-size: 16px;
+  padding: 0.5rem 1rem 0.5rem 3.75rem;
+  font-size: 1rem;
   background-color: transparent;
   color: #e7e9ea;
   transition: all 0.15s ease;
@@ -244,6 +383,11 @@ body {
 
 .post-input::placeholder {
   color: #8b98a5;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+}
+
+.post-input {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
 }
 
 .post-input:focus {
@@ -255,26 +399,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 /* Счетчик символов */
 .char-count {
   color: #8b98a5;
-  font-size: 12px;
-  margin-top: 4px;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
   text-align: left;
-  min-height: 16px;
-  margin-bottom: 4px;
+  min-height: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 .btn-primary {
   border: none;
   background: linear-gradient(135deg, #DBAF27, #e0ab00);
   color: #ffff;
-  padding: 10px 20px;
-  border-radius: 24px;
-  font-size: 14px;
+  padding: 0.625rem 1.25rem; /* Стандартные отступы */
+  border-radius: 1.5rem; /* Стандартный радиус */
+  font-size: 14px; /* Конкретный размер 14px */
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -289,14 +433,14 @@ body {
 .image-upload-label {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  gap: 0.5rem;
+  font-size: 14px; /* Конкретный размер 14px */
   color: #DBAF27;
-  padding: 8px 16px;
-  border-radius: 24px;
+  padding: 0.5rem 1rem;
+  border-radius: 1.5rem;
   cursor: pointer;
   transition: all 0.15s ease;
-  border: 1px solid transparent;
+  border: 0.0625rem solid transparent;
 }
 
 .image-upload-label:hover {
@@ -308,7 +452,7 @@ body {
   display: none;
 }
 
-/* Лента постов */
+/* Лента постов - контейнер для постов */
 .feed {
   flex: 1;
   padding: 0 0 40px;
@@ -326,11 +470,11 @@ body {
 
 .post {
   display: flex;
-  gap: 12px;
-  padding: 16px;
+  gap: 0.85rem;
+  padding: 1.1rem;
   background-color: #222224;
   border: none;
-  border-radius: 32px;
+  border-radius: 2.2rem;
   transition: background-color 0.15s ease;
 }
 
@@ -339,16 +483,16 @@ body {
 }
 
 .posts-list .post:first-child {
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 .posts-list .post:last-child {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .post-avatar {
-  width: 42px;
-  height: 42px;
+  width: 2.9rem; /* Увеличено на 10% */
+  height: 2.9rem; /* Увеличено на 10% */
   border-radius: 50%;
   background: linear-gradient(135deg, #2d353e, #39424c);
   flex-shrink: 0;
@@ -364,22 +508,22 @@ body {
 .post-header {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .post-username {
-  font-size: 15px;
+  font-size: 14px; /* Конкретный размер 14px */
   font-weight: 600;
   color: #e7e9ea;
 }
 
 .post-handle {
-  font-size: 14px;
+  font-size: 14px; /* Конкретный размер 14px */
   color: #8b98a5;
 }
 
 .post-text {
-  font-size: 15px;
+  font-size: 15px; /* Конкретный размер 15px */
   line-height: 1.45;
   white-space: pre-wrap;
   word-break: break-word;
@@ -388,10 +532,10 @@ body {
 }
 
 .post-image-wrapper {
-  margin-top: 12px;
-  border-radius: 20px;
+  margin-top: 0.75rem;
+  border-radius: 1.25rem;
   overflow: hidden;
-  border: 1px solid #39424c;
+  border: 0.0625rem solid #39424c;
 }
 
 .post-image {
@@ -403,24 +547,24 @@ body {
 .post-footer {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin-top: 12px;
-  font-size: 14px;
+  gap: 1.25rem;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
   color: #8b98a5;
 }
 
 .like-button {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   border: none;
   background: transparent;
   color: #8b98a5;
   cursor: pointer;
-  border-radius: 20px;
-  padding: 8px 16px;
+  border-radius: 1.25rem;
+  padding: 0.5rem 1rem;
   transition: all 0.15s ease;
-  font-size: 14px;
+  font-size: 0.875rem;
   transform: scale(1);
 }
 
@@ -433,14 +577,14 @@ body {
 }
 
 .like-icon {
-  width: 18px;
-  height: 18px;
+  width: 1.125rem;
+  height: 1.125rem;
   display: block;
-  margin-left: -15px;
+  margin-left: -0.9375rem;
 }
 
 .like-count {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
@@ -451,17 +595,17 @@ body {
   border: none;
   background: transparent;
   cursor: pointer;
-  border-radius: 20px;
-  padding: 8px 16px;
+  border-radius: 1.25rem;
+  padding: 0.5rem 1rem;
   transition: all 0.15s ease;
   transform: scale(1);
 }
 
 .comment-icon {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   display: block;
-  margin-left: -20px;
+  margin-left: -1.25rem;
 }
 
 .comment-button:hover {
@@ -476,16 +620,16 @@ body {
 .page-search,
 .page-notifications,
 .page-account {
-  padding: 24px 16px;
-  max-width: 580px;
+  padding: 1.5rem 1rem;
+  max-width: 36.25rem;
   margin: 0 auto;
 }
 
 .page-search h1,
 .page-notifications h1,
 .page-account h1 {
-  margin: 0 0 16px 0;
-  font-size: 24px;
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 
@@ -493,24 +637,25 @@ body {
   color: #ef4444;
   background-color: #ef44441a;
   border-radius: 999px;
-  padding: 14px 12px;
-  margin: 4px 0 0;
-  font-size: 14px;
+  padding: 0.75rem 0.75rem;
+  margin: 0 0 0.25rem;
+  font-size: 0.875rem;
+  text-align: center;
+  width: 100%;
+  display: block;
+  position: relative;
+  z-index: 1;
 }
 
 /* Адаптив — ТОЧНО как Twitter */
-@media (max-width: 900px) {
-  .app {
-    padding: 0 16px;
-  }
 
   .sidebar {
-    width: 72px;
-    padding: 16px 4px;
+    width: 4.5rem;
+    padding: 1rem 0.25rem;
   }
 
   .sidebar-inner {
-    padding: 12px 4px;
+    padding: 0.75rem 0.25rem;
   }
 }
 
@@ -523,18 +668,18 @@ body {
   .sidebar {
     flex-direction: row;
     width: auto;
-    padding: 12px 0;
+    padding: 0.682rem 0;
     order: -1;
   }
 
   .sidebar-nav {
     flex-direction: row;
-    gap: 8px;
+    gap: 0.455rem;
   }
 
   .nav-item {
-    height: 44px;
-    width: 44px;
+    height: 2.5rem;
+    width: 2.5rem;
     padding: 0;
   }
 
@@ -547,48 +692,75 @@ body {
     margin: 0;
   }
 
-  .create-post {
-    display: none;
+  /* Hide create post block on mobile - more specific selector */
+  body .main-content .page-home .feed .create-post {
+    display: none !important;
   }
 
   .create-post-inner {
-    border-radius: 32px;
-    border: 1px solid #2a2a2d;
+    border-radius: 2rem;
+    border: 0.0625rem solid #2a2a2d;
   }
 
   .feed {
     padding: 0;
   }
 
-  /* Стили для постов на мобильной версии - слитные без обводки */
+  /* Fix mobile layout issues */
+  .main-content {
+    padding: 0;
+    margin: 0;
+  }
+
+  .page-home {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Стили для постов на мобильной версии - слитные без фона, до краев экрана */
   .posts-list {
     gap: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
   }
 
   .post {
     border-left: none;
     border-right: none;
     border-radius: 0;
-    background-color: #151518;
+    background-color: transparent;
     border: none;
-    border-top: 1px solid #2a2a2d;
+    border-top: 0.0625rem solid #2a2a2d;
+    margin: 0;
+    padding: 1.1rem;
+    width: 100%;
+  }
+
+  .post-content {
+    background-color: transparent;
+  }
+
+  .post-image-wrapper {
+    background-color: #222224;
+    border-radius: 1.25rem;
   }
 
   .post + .post {
-    border-top: 1px solid #2a2a2d;
+    border-top: 0.0625rem solid #2a2a2d;
   }
 
   .posts-list .post:first-child {
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    margin-top: 8px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-top: 0;
     border-top: none;
   }
 
   .posts-list .post:last-child {
-    border-bottom-left-radius: 24px;
-    border-bottom-right-radius: 24px;
-    margin-bottom: 8px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 0;
   }
 }
 
@@ -597,14 +769,7 @@ body {
   .desktop-only {
     display: none !important;
   }
-}
 
-/* Настраиваем новое меню для телефонов */
-.mobile-bottom-nav {
-  display: none;
-}
-
-@media (max-width: 640px) {
   .sidebar {
     display: none;
   }
@@ -612,29 +777,29 @@ body {
   .mobile-bottom-nav {
     display: flex;
     position: fixed;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    height: 64px;
-    padding: 0 10px;
+    left: 0.682rem;
+    right: 0.682rem;
+    bottom: 0.682rem;
+    height: 3.636rem;
+    padding: 0 0.568rem;
     justify-content: space-around;
     align-items: center;
     background: rgba(16, 18, 20, 0.5);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(57, 66, 76, 0.65);
-    border-radius: 32px;
+    border: 0.057rem solid rgba(57, 66, 76, 0.65);
+    border-radius: 1.818rem;
     z-index: 9999;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0.455rem 1.364rem rgba(0, 0, 0, 0.35);
   }
 
   .mobile-bottom-nav .nav-item {
-    width: 52px;
-    height: 44px;
-    border-radius: 22px;
+    width: 2.955rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transform: scale(1);
-    padding: 0 4px;
+    padding: 0 0.227rem;
   }
 
   /* Убираем hover эффекты для мобильных устройств */
@@ -644,20 +809,20 @@ body {
 
   /* Делаем активный элемент более вытянутым (форма капсулы) с анимацией */
   .mobile-bottom-nav .nav-item-active {
-    border-radius: 30px;
+    border-radius: 1.705rem;
     background-color: #EDC33E;
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(237, 195, 62, 0.3);
-    padding: 0 14px;
+    box-shadow: 0 0.227rem 0.682rem rgba(237, 195, 62, 0.3);
+    padding: 0 0.795rem;
   }
 
   .app {
-    padding-bottom: 92px;
+    padding-bottom: 5.227rem;
   }
 
   /* Отодвигаем посты вверх, чтобы меню их не закрывало */
   body {
-    padding-bottom: 70px;
+    padding-bottom: 3.977rem;
   }
 }
 
@@ -665,20 +830,20 @@ body {
 .mobile-create-post-btn {
   display: none;
   position: fixed;
-  right: 20px;
-  bottom: 90px;
-  width: 56px;
-  height: 56px;
+  right: 1.136rem;
+  bottom: 5.114rem;
+  width: 3.182rem;
+  height: 3.182rem;
   border-radius: 50%;
   background: rgba(16, 18, 20, 0.5);
   color: white;
-  border: 1px solid rgba(57, 66, 76, 0.65);
-  font-size: 24px;
+  border: 0.057rem solid rgba(57, 66, 76, 0.65);
+  font-size: 1.364rem;
   cursor: pointer;
   z-index: 10000;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0.455rem 1.364rem rgba(0, 0, 0, 0.35);
   transition: all 0.3s ease;
 }
 
@@ -726,19 +891,19 @@ body {
 }
 
 .mobile-create-post-title {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 600;
   color: #e7e9ea;
 }
 
 .mobile-close-btn {
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   background-color: #39424c;
   color: #e7e9ea;
   border: none;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -747,17 +912,17 @@ body {
 
 .mobile-post-input-container {
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: 0.909rem;
   align-items: flex-start;
 }
 
 .mobile-post-input-avatar {
-  width: 42px;
-  height: 42px;
+  width: 2.625rem;
+  height: 2.625rem;
   border-radius: 50%;
   background: linear-gradient(135deg, #2d353e, #39424c);
   flex-shrink: 0;
-  margin-right: 12px;
+  margin-right: 0.75rem;
 }
 
 .mobile-user-info {
@@ -767,21 +932,32 @@ body {
 }
 
 .mobile-user-name {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   color: #e7e9ea;
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
+}
+
+/* Стили для ошибки в мобильной форме */
+.mobile-create-post-content > .post-error {
+  margin: 0.5rem 0 0.75rem 0;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.875rem;
+  text-align: center;
+  width: auto;
+  max-width: 100%;
+  word-break: break-word;
 }
 
 .mobile-post-input-container textarea {
   width: 100%;
-  min-height: 60px;
+  min-height: 3.75rem;
   resize: none;
   border: none;
   outline: none;
   background: transparent;
   color: #e7e9ea;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.4;
   overflow-y: auto;
   scrollbar-width: none;
@@ -796,8 +972,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 16px;
-  padding: 12px 0;
+  margin-top: 1rem;
+  padding: 0.75rem 0;
 }
 
 @media (max-width: 640px) {
