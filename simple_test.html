@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простой тест скроллбара</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .test-box {
+            width: 300px;
+            height: 200px;
+            overflow-y: auto;
+            border: 2px solid #333;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .content {
+            height: 1000px;
+            background: linear-gradient(to bottom, #fff, #ddd);
+        }
+
+        .test-info {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #e7f3ff;
+            border-left: 4px solid #2196F3;
+        }
+
+        .test-title {
+            font-weight: bold;
+            color: #1976D2;
+        }
+
+        /* Тест 1: Всегда скрывать скроллбар */
+        .test-always-hide::-webkit-scrollbar {
+            display: none !important;
+        }
+
+        /* Тест 2: Скрывать только на маленьких экранах */
+        @media (max-width: 500px) {
+            .test-mobile-hide::-webkit-scrollbar {
+                display: none !important;
+            }
+        }
+
+        /* Тест 3: Скрывать на экранах шириной до 400px */
+        @media (max-width: 400px) {
+            .test-small-hide::-webkit-scrollbar {
+                display: none !important;
+            }
+        }
+
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin-right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .current-width {
+            margin-top: 10px;
+            font-family: monospace;
+            background-color: #fff;
+            padding: 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Простой тест скрытия скроллбара</h1>
+
+    <div class="controls">
+        <button onclick="setWidth(800)">Ширина 800px (телефон ландшафт)</button>
+        <button onclick="setWidth(768)">Ширина 768px (планшет портрет)</button>
+        <button onclick="setWidth(400)">Ширина 400px (маленький экран)</button>
+        <button onclick="setWidth(375)">Ширина 375px (телефон портрет)</button>
+        <button onclick="resetWidth()">Сбросить ширину</button>
+
+        <div class="current-width">
+            Текущая ширина окна: <span id="current-width">?</span>px
+        </div>
+    </div>
+
+    <div class="test-info">
+        <div class="test-title">Тест 1: Всегда скрытый скроллбар</div>
+        <div>Этот скроллбар должен быть всегда скрыт, независимо от размера экрана.</div>
+    </div>
+    <div class="test-box test-always-hide">
+        <div class="content">
+            <p>Содержимое для скроллинга</p>
+            <p>Этот скроллбар должен быть скрыт всегда</p>
+        </div>
+    </div>
+
+    <div class="test-info">
+        <div class="test-title">Тест 2: Скрытый скроллбар на экранах до 500px</div>
+        <div>Этот скроллбар должен быть скрыт только когда ширина экрана ≤ 500px.</div>
+    </div>
+    <div class="test-box test-mobile-hide">
+        <div class="content">
+            <p>Содержимое для скроллинга</p>
+            <p>Этот скроллбар должен быть скрыт на экранах ≤ 500px</p>
+        </div>
+    </div>
+
+    <div class="test-info">
+        <div class="test-title">Тест 3: Скрытый скроллбар на экранах до 400px</div>
+        <div>Этот скроллбар должен быть скрыт только когда ширина экрана ≤ 400px.</div>
+    </div>
+    <div class="test-box test-small-hide">
+        <div class="content">
+            <p>Содержимое для скроллинга</p>
+            <p>Этот скроллбар должен быть скрыт на экранах ≤ 400px</p>
+        </div>
+    </div>
+
+    <div class="test-info">
+        <div class="test-title">Тест 4: Обычный скроллбар (контрольный)</div>
+        <div>Этот скроллбар всегда видимый для сравнения.</div>
+    </div>
+    <div class="test-box">
+        <div class="content">
+            <p>Содержимое для скроллинга</p>
+            <p>Этот скроллбар всегда видимый</p>
+        </div>
+    </div>
+
+    <script>
+        // Update current width
+        function updateWidth() {
+            document.getElementById('current-width').textContent = window.innerWidth;
+        }
+
+        // Set specific width
+        function setWidth(width) {
+            document.documentElement.style.setProperty('--test-width', width + 'px');
+            document.body.style.width = width + 'px';
+            updateWidth();
+        }
+
+        // Reset width
+        function resetWidth() {
+            document.documentElement.style.removeProperty('--test-width');
+            document.body.style.width = '';
+            updateWidth();
+        }
+
+        // Initial update
+        updateWidth();
+        window.addEventListener('resize', updateWidth);
+    </script>
+</body>
+</html>

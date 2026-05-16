@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Scrollbar</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .test-section h3 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        .scrollable-area {
+            height: 200px;
+            width: 100%;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .content {
+            height: 500px;
+            background: linear-gradient(to bottom, #fff, #eee);
+        }
+
+        /* Test the exact same media queries as in style.css */
+        @media (max-width: 900px) and (orientation: landscape) {
+            .scrollable-area::-webkit-scrollbar {
+                display: none !important;
+            }
+
+            .scrollable-area::-webkit-scrollbar-thumb {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 1024px) and (orientation: portrait) {
+            .scrollable-area::-webkit-scrollbar {
+                display: none !important;
+            }
+
+            .scrollable-area::-webkit-scrollbar-thumb {
+                display: none !important;
+            }
+        }
+
+        .device-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .status {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .status-hidden {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-visible {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .debug-info {
+            font-family: monospace;
+            font-size: 12px;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Отладка скрытия скроллбара</h1>
+        <p>Эта страница тестирует точно такие же медиа-запросы, как в style.css</p>
+
+        <div class="test-section">
+            <h3>Текущие настройки экрана</h3>
+            <div class="device-info" id="screen-info">
+                Ширина: <span id="width">?</span>px |
+                Высота: <span id="height">?</span>px |
+                Ориентация: <span id="orientation">?</span> |
+                Соотношение сторон: <span id="ratio">?</span>
+            </div>
+
+            <div class="debug-info" id="media-queries">
+                Медиа-запросы:
+                - (max-width: 900px) and (orientation: landscape): <span id="mq-landscape">?</span>
+                - (max-width: 1024px) and (orientation: portrait): <span id="mq-portrait">?</span>
+                - (max-width: 640px): <span id="mq-mobile">?</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>Тестовая область с скроллбаром</h3>
+            <div class="scrollable-area">
+                <div class="content">
+                    <p>Содержимое для скроллинга...</p>
+                    <p>Попробуйте изменить размер окна браузера или ориентацию устройства, чтобы увидеть, как меняется видимость скроллбара.</p>
+                </div>
+            </div>
+            <div class="status" id="scrollbar-status">Скроллбар: ?</div>
+        </div>
+
+        <div class="test-section">
+            <h3>Инструкции</h3>
+            <ol>
+                <li>Откройте инструменты разработчика (F12)</li>
+                <li>Переключитесь на режим эмуляции устройств (Ctrl+Shift+M)</li>
+                <li>Выберите телефон в ландшафтной ориентации (например, iPhone XR, 896x414)</li>
+                <li>Проверьте, скрыт ли скроллбар</li>
+                <li>Выберите планшет в портретной ориентации (например, iPad, 768x1024)</li>
+                <li>Проверьте, скрыт ли скроллбар</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Update screen info
+        function updateScreenInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const orientation = width > height ? 'landscape' : 'portrait';
+            const ratio = (width / height).toFixed(2);
+
+            document.getElementById('width').textContent = width;
+            document.getElementById('height').textContent = height;
+            document.getElementById('orientation').textContent = orientation;
+            document.getElementById('ratio').textContent = ratio;
+
+            // Check media queries
+            const mqLandscape = window.matchMedia('(max-width: 900px) and (orientation: landscape)').matches;
+            const mqPortrait = window.matchMedia('(max-width: 1024px) and (orientation: portrait)').matches;
+            const mqMobile = window.matchMedia('(max-width: 640px)').matches;
+
+            document.getElementById('mq-landscape').textContent = mqLandscape ? 'МАТЧ' : 'НЕТ';
+            document.getElementById('mq-portrait').textContent = mqPortrait ? 'МАТЧ' : 'НЕТ';
+            document.getElementById('mq-mobile').textContent = mqMobile ? 'МАТЧ' : 'НЕТ';
+
+            // Check scrollbar visibility
+            const scrollbarVisible = window.getComputedStyle(document.querySelector('.scrollable-area'))['-webkit-scrollbar-display'] !== 'none';
+            document.getElementById('scrollbar-status').textContent = 'Скроллбар: ' + (scrollbarVisible ? 'Видимый' : 'Скрытый');
+            document.getElementById('scrollbar-status').className = 'status ' + (scrollbarVisible ? 'status-visible' : 'status-hidden');
+        }
+
+        // Initial update
+        updateScreenInfo();
+
+        // Update on resize
+        window.addEventListener('resize', updateScreenInfo);
+
+        // Update on orientation change
+        window.addEventListener('orientationchange', updateScreenInfo);
+    </script>
+</body>
+</html>

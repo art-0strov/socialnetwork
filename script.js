@@ -1,3 +1,77 @@
+// Функция для получения базового пути (универсальная для любого хостинга)
+function getBasePath() {
+  // Для локального открытия файла (file://) всегда возвращаем пустую строку
+  if (window.location.protocol === 'file:') {
+    return '';
+  }
+
+  // Получаем текущий путь без параметров
+  const currentPath = window.location.pathname;
+
+  // Проверяем, находимся ли мы в корневой директории или в подпапке
+  // Для веб-хостинга с доменом обычно все файлы находятся в корне
+  // Но поддерживаем и подпапки на случай, если сайт будет в поддиректории
+
+  // Если путь содержит несколько сегментов (например, /social-network/)
+  const pathSegments = currentPath.split('/').filter(segment => segment.length > 0);
+
+  // Если есть сегменты пути (мы в подпапке)
+  if (pathSegments.length > 0) {
+    // Возвращаем полный путь до текущей директории
+    return pathSegments.join('/') + '/';
+  }
+
+  // Для корневого домена возвращаем пустую строку
+  return '';
+}
+
+// Функция для обновления иконок меню (глобальная версия)
+function updateNavIcon(button, isActive) {
+  const icon = button.querySelector('.nav-icon');
+  if (!icon) return;
+
+  const pageType = button.dataset.page;
+  let iconPath = '';
+
+  // Получаем базовый путь для работы на GitHub Pages
+  const basePath = getBasePath();
+
+  if (isActive) {
+    // Активные иконки (выбранные пункты)
+    if (pageType === 'home') iconPath = basePath + 'menu-icons/feed2.svg';
+    else if (pageType === 'search') iconPath = basePath + 'menu-icons/explore2.svg';
+    else if (pageType === 'notifications') iconPath = basePath + 'menu-icons/notifications2.svg';
+    else if (pageType === 'account') iconPath = basePath + 'menu-icons/user2.svg';
+  } else {
+    // Обычные иконки
+    if (pageType === 'home') iconPath = basePath + 'menu-icons/feed.svg';
+    else if (pageType === 'search') iconPath = basePath + 'menu-icons/explore.svg';
+    else if (pageType === 'notifications') iconPath = basePath + 'menu-icons/notifications.svg';
+    else if (pageType === 'account') iconPath = basePath + 'menu-icons/user.svg';
+  }
+
+  // Проверяем существует ли файл перед установкой src
+  // Это предотвращает ошибки 404 и исчезновение иконок
+  try {
+    // Создаем временный Image объект для проверки пути
+    const testImg = new Image();
+    testImg.onload = function() {
+      icon.src = iconPath;
+    };
+    testImg.onerror = function() {
+      console.warn(`Icon not found: ${iconPath}, using fallback`);
+      // Используем резервную иконку если основная не найдена
+      if (pageType === 'home') icon.src = basePath + 'menu-icons/feed.svg';
+      else if (pageType === 'search') icon.src = basePath + 'menu-icons/explore.svg';
+      else if (pageType === 'notifications') icon.src = basePath + 'menu-icons/notifications.svg';
+      else if (pageType === 'account') icon.src = basePath + 'menu-icons/user.svg';
+    };
+    testImg.src = iconPath;
+  } catch (e) {
+    console.error('Error loading icon:', e);
+  }
+}
+
 // ПОЛНАЯ РЕАЛИЗАЦИЯ SPA С ВСЕМ ФУНКЦИОНАЛОМ
 document.addEventListener('DOMContentLoaded', function() {
   // ---------- SPA РОУТИНГ ----------
@@ -21,6 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
       updateNavIcon(button, false); // Устанавливаем обычную иконку для неактивных элементов
     }
   });
+
+  // Инициализируем иконки для мобильного меню (которые загружаются с data-icon)
+  initializeMobileMenuIcons();
 
   // Навигация по меню
   navButtons.forEach(button => {
@@ -57,76 +134,41 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Функция для обновления иконок меню
-  function updateNavIcon(button, isActive) {
-    const icon = button.querySelector('.nav-icon');
-    if (!icon) return;
+  // Обработчики hover для меню (только для десктопа)
+  // Используем только ширину экрана для определения мобильных устройств
+  // Это самый надежный способ, так как он не зависит от userAgent
+  const isMobile = window.innerWidth <= 1024; // Все экраны уже 1024px считаем мобильными
 
-    const pageType = button.dataset.page;
-    let iconPath = '';
+  if (!isMobile) {
+    navButtons.forEach(button => {
+      button.addEventListener('mouseenter', function() {
+        if (!this.classList.contains('nav-item-active')) {
+          const icon = this.querySelector('.nav-icon');
+          if (icon) {
+            const pageType = this.dataset.page;
+            let hoverIconPath = '';
 
-    if (isActive) {
-      // Активные иконки (выбранные пункты)
-      if (pageType === 'home') iconPath = 'menu-icons/feed2.svg';
-      else if (pageType === 'search') iconPath = 'menu-icons/explore2.svg';
-      else if (pageType === 'notifications') iconPath = 'menu-icons/notifications2.svg';
-      else if (pageType === 'account') iconPath = 'menu-icons/user2.svg';
-    } else {
-      // Обычные иконки
-      if (pageType === 'home') iconPath = 'menu-icons/feed.svg';
-      else if (pageType === 'search') iconPath = 'menu-icons/explore.svg';
-      else if (pageType === 'notifications') iconPath = 'menu-icons/notifications.svg';
-      else if (pageType === 'account') iconPath = 'menu-icons/user.svg';
-    }
+            // Получаем базовый путь для работы на GitHub Pages
+            const basePath = getBasePath();
 
-    // Проверяем существует ли файл перед установкой src
-    // Это предотвращает ошибки 404 и исчезновение иконок
-    try {
-      // Создаем временный Image объект для проверки пути
-      const testImg = new Image();
-      testImg.onload = function() {
-        icon.src = iconPath;
-      };
-      testImg.onerror = function() {
-        console.warn(`Icon not found: ${iconPath}, using fallback`);
-        // Используем резервную иконку если основная не найдена
-        if (pageType === 'home') icon.src = 'menu-icons/feed.svg';
-        else if (pageType === 'search') icon.src = 'menu-icons/explore.svg';
-        else if (pageType === 'notifications') icon.src = 'menu-icons/notifications.svg';
-        else if (pageType === 'account') icon.src = 'menu-icons/user.svg';
-      };
-      testImg.src = iconPath;
-    } catch (e) {
-      console.error('Error loading icon:', e);
-    }
-  }
+            // Иконки при наведении
+            if (pageType === 'home') hoverIconPath = basePath + 'menu-icons/feed1.svg';
+            else if (pageType === 'search') hoverIconPath = basePath + 'menu-icons/explore1.svg';
+            else if (pageType === 'notifications') hoverIconPath = basePath + 'menu-icons/notifications1.svg';
+            else if (pageType === 'account') hoverIconPath = basePath + 'menu-icons/user1.svg';
 
-  // Обработчики hover для меню
-  navButtons.forEach(button => {
-    button.addEventListener('mouseenter', function() {
-      if (!this.classList.contains('nav-item-active')) {
-        const icon = this.querySelector('.nav-icon');
-        if (icon) {
-          const pageType = this.dataset.page;
-          let hoverIconPath = '';
-
-          // Иконки при наведении
-          if (pageType === 'home') hoverIconPath = 'menu-icons/feed1.svg';
-          else if (pageType === 'search') hoverIconPath = 'menu-icons/explore1.svg';
-          else if (pageType === 'notifications') hoverIconPath = 'menu-icons/notifications1.svg';
-          else if (pageType === 'account') hoverIconPath = 'menu-icons/user1.svg';
-
-          icon.src = hoverIconPath;
+            icon.src = hoverIconPath;
+          }
         }
-      }
-    });
+      });
 
-    button.addEventListener('mouseleave', function() {
-      if (!this.classList.contains('nav-item-active')) {
-        updateNavIcon(this, false); // Возвращаем обычную иконку
-      }
+      button.addEventListener('mouseleave', function() {
+        if (!this.classList.contains('nav-item-active')) {
+          updateNavIcon(this, false); // Возвращаем обычную иконку
+        }
+      });
     });
-  });
+  }
 
   // Обработчик кнопок назад/вперед
   window.addEventListener('popstate', function(e) {
@@ -509,7 +551,34 @@ document.addEventListener('DOMContentLoaded', function() {
   posts[3].likes = 2;
   posts[4].likes = 5;
   posts[5].likes = 3;
-  renderPosts();
+
+  // Проверяем, что элемент posts-list существует перед рендерингом
+  console.log('Checking posts list element...');
+  console.log('postsListEl:', postsListEl);
+
+  if (postsListEl) {
+    console.log('Posts list element found, rendering posts...');
+    renderPosts();
+    console.log('Posts rendered:', posts.length);
+
+    // Проверяем, что посты действительно добавились в DOM
+    setTimeout(() => {
+      const postsInDOM = document.querySelectorAll('.post');
+      console.log('Posts in DOM:', postsInDOM.length);
+      if (postsInDOM.length === 0) {
+        console.error('Posts not appearing in DOM!');
+      }
+    }, 100);
+  } else {
+    console.error('Posts list element not found!');
+    // Пробуем найти элемент еще раз
+    const fallbackPostsList = document.getElementById('posts-list');
+    console.log('Fallback posts list:', fallbackPostsList);
+    if (fallbackPostsList) {
+      postsListEl = fallbackPostsList;
+      renderPosts();
+    }
+  }
   autoResize();
   updateCharCount();
 
@@ -522,6 +591,48 @@ document.addEventListener('DOMContentLoaded', function() {
   const mobileCharCount = document.getElementById('mobile-char-count');
 
   if (mobileCreatePostBtn && mobileCreatePostModal) {
+  // Показываем кнопку создания поста только на странице ленты и аккаунта
+  function updateMobileCreatePostButtonVisibility() {
+    const currentPage = document.querySelector('.page:not([hidden])');
+
+    // Проверяем, что это мобильное устройство
+    const isMobilePortrait = window.innerWidth <= 1024 && window.matchMedia('(orientation: portrait)').matches;
+    const isPhoneLandscape = window.innerWidth <= 900 && window.matchMedia('(orientation: landscape)').matches;
+    const isTabletPortrait = window.innerWidth <= 1024 && window.matchMedia('(orientation: portrait)').matches;
+    const isSmallPhone = window.innerWidth <= 640;
+
+    // Показываем кнопку для всех мобильных устройств на нужных страницах
+    const shouldShowButton = (isMobilePortrait || isPhoneLandscape || isTabletPortrait || isSmallPhone) &&
+                           (currentPage.classList.contains('page-home') || currentPage.classList.contains('page-account'));
+
+    // Принудительно показываем кнопку, если это мобильное устройство и нужная страница
+    if (shouldShowButton) {
+      mobileCreatePostBtn.style.display = 'block';
+    } else {
+      mobileCreatePostBtn.style.display = 'none';
+    }
+  }
+
+    // Инициализируем видимость кнопки
+    updateMobileCreatePostButtonVisibility();
+
+    // Обновляем видимость при смене страниц
+    navButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Скрываем кнопку сразу перед сменой страницы
+        mobileCreatePostBtn.style.display = 'none';
+
+        // Показываем кнопку сразу после смены страницы, если это нужная страница
+        setTimeout(() => {
+          updateMobileCreatePostButtonVisibility();
+        }, 0);
+      });
+    });
+
+    // Обновляем видимость при изменении размера окна или ориентации
+    window.addEventListener('resize', updateMobileCreatePostButtonVisibility);
+    window.addEventListener('orientationchange', updateMobileCreatePostButtonVisibility);
+
     // Открытие/закрытие модального окна
     mobileCreatePostBtn.addEventListener('click', () => {
       mobileCreatePostModal.classList.add('active');
@@ -572,71 +683,71 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(mobileUpdateCharCount, 10);
     });
 
-          // Обработка отправки формы в мобильной версии
-          mobileCreatePostForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const text = mobilePostText.value.trim();
-            const now = Date.now();
-            const errorEl = document.getElementById("mobile-post-error");
+    // Обработка отправки формы в мобильной версии
+    mobileCreatePostForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = mobilePostText.value.trim();
+      const now = Date.now();
+      const errorEl = document.getElementById("mobile-post-error");
 
-            // Проверка лимита символов
-            if (text.length > charLimit) {
-              if (errorEl) {
-                errorEl.style.display = "block";
-                errorEl.textContent = "Слишком длинный пост, сократите до 1000 символов";
-                mobileCreatePostForm.classList.add("has-error");
-              }
-              return;
-            }
+      // Проверка лимита символов
+      if (text.length > charLimit) {
+        if (errorEl) {
+          errorEl.style.display = "block";
+          errorEl.textContent = "Слишком длинный пост, сократите до 1000 символов";
+          mobileCreatePostForm.classList.add("has-error");
+        }
+        return;
+      }
 
-            // Антиспам: не более 2 постов в минуту
-            postTimestamps = postTimestamps.filter(ts => now - ts < 60_000);
-            if (postTimestamps.length >= 2) {
-              if (errorEl) {
-                errorEl.style.display = "block";
-                errorEl.textContent = "не спамь, погоди минуту";
-                mobileCreatePostForm.classList.add("has-error");
-              }
-              return;
-            }
+      // Антиспам: не более 2 постов в минуту
+      postTimestamps = postTimestamps.filter(ts => now - ts < 60_000);
+      if (postTimestamps.length >= 2) {
+        if (errorEl) {
+          errorEl.style.display = "block";
+          errorEl.textContent = "не спамь, погоди минуту";
+          mobileCreatePostForm.classList.add("has-error");
+        }
+        return;
+      }
 
-            if (!text) return;
+      if (!text) return;
 
-            const file = document.getElementById('mobile-post-image').files[0];
-            let imageUrl = null;
-            postTimestamps.push(now);
+      const file = document.getElementById('mobile-post-image').files[0];
+      let imageUrl = null;
+      postTimestamps.push(now);
 
-            // Скрываем ошибку если она была
-            if (errorEl) {
-              errorEl.style.display = "none";
-              mobileCreatePostForm.classList.remove("has-error");
-            }
+      // Скрываем ошибку если она была
+      if (errorEl) {
+        errorEl.style.display = "none";
+        mobileCreatePostForm.classList.remove("has-error");
+      }
 
-            if (file) {
-              const reader = new FileReader();
-              reader.onload = function(event) {
-                imageUrl = event.target.result;
-                const newPost = createPostObject(text, imageUrl);
-                posts.unshift(newPost);
-                renderPosts();
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          imageUrl = event.target.result;
+          const newPost = createPostObject(text, imageUrl);
+          posts.unshift(newPost);
+          renderPosts();
 
-                mobileCreatePostModal.classList.remove('active');
-                mobilePostText.value = '';
-                mobileCharCount.textContent = '';
-                document.getElementById('mobile-post-image').value = '';
-              };
-              reader.readAsDataURL(file);
-            } else {
-              const newPost = createPostObject(text, null);
-              posts.unshift(newPost);
-              renderPosts();
+          mobileCreatePostModal.classList.remove('active');
+          mobilePostText.value = '';
+          mobileCharCount.textContent = '';
+          document.getElementById('mobile-post-image').value = '';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        const newPost = createPostObject(text, null);
+        posts.unshift(newPost);
+        renderPosts();
 
-              mobileCreatePostModal.classList.remove('active');
-              mobilePostText.value = '';
-              mobileCharCount.textContent = '';
-              document.getElementById('mobile-post-image').value = '';
-            }
-          });
+        mobileCreatePostModal.classList.remove('active');
+        mobilePostText.value = '';
+        mobileCharCount.textContent = '';
+        document.getElementById('mobile-post-image').value = '';
+      }
+    });
   }
 
   /* Добавляем глобальный обработчик скролла колесика мыши */
@@ -759,3 +870,32 @@ document.addEventListener('DOMContentLoaded', function() {
     setupScrollableElement(scrollableElement);
   });
 });
+
+// Функция для инициализации иконок мобильного меню
+function initializeMobileMenuIcons() {
+  // Находим все иконки с data-icon атрибутом
+  const mobileIcons = document.querySelectorAll('.nav-icon[data-icon]');
+
+  // Получаем базовый путь (функция определена внутри DOMContentLoaded)
+  const basePath = window.getBasePath ? window.getBasePath() : '';
+
+  mobileIcons.forEach(icon => {
+    const iconName = icon.getAttribute('data-icon');
+    const iconPath = basePath + 'menu-icons/' + iconName;
+
+    // Устанавливаем путь к иконке
+    icon.src = iconPath;
+
+    // Добавляем обработчик ошибок на случай, если иконка не найдется
+    icon.onerror = function() {
+      console.warn(`Mobile icon not found: ${iconPath}`);
+      // Пробуем использовать стандартную иконку
+      icon.src = basePath + 'menu-icons/feed.svg';
+    };
+  });
+}
+
+// Делаем функцию доступной глобально
+window.initializeMobileMenuIcons = initializeMobileMenuIcons;
+window.getBasePath = getBasePath;
+window.updateNavIcon = updateNavIcon;

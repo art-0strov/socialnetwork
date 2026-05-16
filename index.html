@@ -25,7 +25,7 @@
   <meta name="msapplication-TileColor" content="#151518">
   <meta name="msapplication-TileImage" content="favicon/favicon-96x96.png">
   <!-- Подключение CSS -->
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=10">
   <!-- CRITICAL MOBILE STYLES - Inline to ensure they work -->
   <style>
       /* Avatar sizes - same for both desktop and mobile */
@@ -151,6 +151,362 @@
       .page-home {
         padding-top: 0 !important;
         margin-top: 0 !important;
+      }
+
+      /* Show mobile bottom nav */
+      .mobile-bottom-nav {
+        display: flex !important;
+      }
+
+      /* Show mobile create post button */
+      .mobile-create-post-btn {
+        display: block !important;
+        position: fixed !important;
+        right: 1.136rem !important;
+        bottom: 5.114rem !important;
+        width: 3.182rem !important;
+        height: 3.182rem !important;
+        border-radius: 50% !important;
+        background: rgba(16, 18, 20, 0.5) !important;
+        color: white !important;
+        border: 0.057rem solid rgba(57, 66, 76, 0.65) !important;
+        font-size: 1.364rem !important;
+        cursor: pointer !important;
+        z-index: 10000 !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        box-shadow: 0 0.455rem 1.364rem rgba(0, 0, 0, 0.35) !important;
+        transition: all 0.3s ease !important;
+      }
+
+      /* Show mobile create post button on tablets in portrait orientation */
+      @media (max-width: 1024px) and (orientation: portrait) {
+        .mobile-create-post-btn {
+          display: block !important;
+        }
+      }
+
+      /* Show mobile create post button on phones in landscape orientation */
+      @media (max-width: 900px) and (orientation: landscape) {
+        .mobile-create-post-btn {
+          display: block !important;
+        }
+      }
+
+      /* Mobile create post button hover effects */
+      .mobile-create-post-btn:hover {
+        transform: scale(1.05) !important;
+        background: rgba(16, 18, 20, 0.6) !important;
+      }
+
+      .mobile-create-post-btn:active {
+        transform: scale(0.95) !important;
+      }
+    }
+
+    /* Mobile styles for phones in landscape orientation */
+    @media (max-width: 900px) and (orientation: landscape) {
+      /* Hide desktop sidebar */
+      .sidebar {
+        display: none !important;
+      }
+
+      /* Show mobile bottom nav */
+      .mobile-bottom-nav {
+        display: flex !important;
+        position: fixed !important;
+        left: 0.682rem !important;
+        right: 0.682rem !important;
+        bottom: 0.682rem !important;
+        height: 3.636rem !important;
+        padding: 0 0.568rem !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        background: rgba(16, 18, 20, 0.5) !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        border: 0.057rem solid rgba(57, 66, 76, 0.65) !important;
+        border-radius: 1.818rem !important;
+        z-index: 9999 !important;
+        box-shadow: 0 0.455rem 1.364rem rgba(0, 0, 0, 0.35) !important;
+      }
+
+      /* Mobile bottom nav items */
+      .mobile-bottom-nav .nav-item {
+        width: 2.955rem !important;
+        height: 2.5rem !important;
+        border-radius: 1.25rem !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        transform: scale(1) !important;
+        padding: 0 0.227rem !important;
+      }
+
+      /* Remove hover effects for mobile devices */
+      .mobile-bottom-nav .nav-item:hover:not(.nav-item-active) {
+        background-color: transparent !important;
+      }
+
+      /* Active item animation */
+      .mobile-bottom-nav .nav-item-active {
+        border-radius: 1.705rem !important;
+        background-color: #EDC33E !important;
+        transform: scale(1.05) !important;
+        box-shadow: 0 0.227rem 0.682rem rgba(237, 195, 62, 0.3) !important;
+        padding: 0 0.795rem !important;
+      }
+
+      /* Show mobile create post button */
+      .mobile-create-post-btn {
+        display: block !important;
+      }
+
+      /* Hide desktop create post block */
+      body .main-content .page-home .feed .create-post {
+        display: none !important;
+      }
+
+      /* Mobile post styles - full width, no background, with borders */
+      .posts-list {
+        gap: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+
+      .post {
+        border-left: none !important;
+        border-right: none !important;
+        border-radius: 0 !important;
+        background-color: transparent !important;
+        border: none !important;
+        border-top: 0.0625rem solid #2a2a2d !important;
+        margin: 0 !important;
+        padding: 1.1rem !important;
+        width: 100% !important;
+      }
+
+      .post-content {
+        background-color: transparent !important;
+      }
+
+      .post-image-wrapper {
+        background-color: #222224 !important;
+        border-radius: 1.25rem !important;
+      }
+
+      .post + .post {
+        border-top: 0.0625rem solid #2a2a2d !important;
+      }
+
+      .posts-list .post:first-child {
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        margin-top: 0 !important;
+        border-top: none !important;
+      }
+
+      .posts-list .post:last-child {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        margin-bottom: 0 !important;
+      }
+
+      /* Fix mobile layout issues */
+      .main-content {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .page-home {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .feed {
+        padding: 0 !important;
+      }
+
+      .app {
+        padding: 0 !important;
+        gap: 0 !important;
+        padding-bottom: 5.227rem !important;
+        left: 0 !important;
+        margin: 0 auto !important;
+      }
+
+      body {
+        padding-bottom: 3.977rem !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      /* Hide scrollbar in landscape phone orientation */
+      .feed::-webkit-scrollbar,
+      .page-search .page-content.scrollable::-webkit-scrollbar,
+      .page-notifications .page-content.scrollable::-webkit-scrollbar,
+      .page-account .page-content.scrollable::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      .feed::-webkit-scrollbar-thumb,
+      .page-search .page-content.scrollable::-webkit-scrollbar-thumb,
+      .page-notifications .page-content.scrollable::-webkit-scrollbar-thumb,
+      .page-account .page-content.scrollable::-webkit-scrollbar-thumb {
+        display: none !important;
+      }
+
+      /* Hide the browser scrollbar on the right edge */
+      .browser-scrollbar {
+        display: none !important;
+      }
+    }
+
+  /* Mobile styles for tablets in portrait orientation */
+  @media (max-width: 1024px) and (orientation: portrait) {
+    /* Hide desktop sidebar */
+    .sidebar {
+      display: none !important;
+    }
+
+    /* Show mobile bottom nav */
+    .mobile-bottom-nav {
+      display: flex !important;
+      position: fixed !important;
+      left: 0.682rem !important;
+      right: 0.682rem !important;
+      bottom: 0.682rem !important;
+      height: 3.636rem !important;
+      padding: 0 0.568rem !important;
+      justify-content: space-around !important;
+      align-items: center !important;
+      background: rgba(16, 18, 20, 0.5) !important;
+      backdrop-filter: blur(14px) !important;
+      -webkit-backdrop-filter: blur(14px) !important;
+      border: 0.057rem solid rgba(57, 66, 76, 0.65) !important;
+      border-radius: 1.818rem !important;
+      z-index: 9999 !important;
+      box-shadow: 0 0.455rem 1.364rem rgba(0, 0, 0, 0.35) !important;
+    }
+
+    /* Show mobile create post button */
+    .mobile-create-post-btn {
+      display: block !important;
+    }
+
+      /* Hide desktop create post block */
+      body .main-content .page-home .feed .create-post {
+        display: none !important;
+      }
+
+      /* Mobile post styles - full width, no background, with borders */
+      .posts-list {
+        gap: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+
+      .post {
+        border-left: none !important;
+        border-right: none !important;
+        border-radius: 0 !important;
+        background-color: transparent !important;
+        border: none !important;
+        border-top: 0.0625rem solid #2a2a2d !important;
+        margin: 0 !important;
+        padding: 1.1rem !important;
+        width: 100% !important;
+      }
+
+      .post-content {
+        background-color: transparent !important;
+      }
+
+      .post-image-wrapper {
+        background-color: #222224 !important;
+        border-radius: 1.25rem !important;
+      }
+
+      .post + .post {
+        border-top: 0.0625rem solid #2a2a2d !important;
+      }
+
+      .posts-list .post:first-child {
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+        margin-top: 0 !important;
+        border-top: none !important;
+      }
+
+      .posts-list .post:last-child {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        margin-bottom: 0 !important;
+      }
+
+      /* Fix mobile layout issues */
+      .main-content {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .page-home {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .feed {
+        padding: 0 !important;
+      }
+
+      .app {
+        padding: 0 !important;
+        gap: 0 !important;
+        padding-bottom: 5.227rem !important;
+        left: 0 !important;
+        margin: 0 auto !important;
+      }
+
+      body {
+        padding-bottom: 3.977rem !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      /* Fix avatar sizes on tablets */
+      .post-avatar {
+        width: 2.4rem !important;
+        height: 2.4rem !important;
+        margin-right: 0.8rem !important;
+      }
+
+      .post-input-avatar {
+        width: 2.4rem !important;
+        height: 2.4rem !important;
+        left: 0.5rem !important;
+      }
+
+      /* Hide scrollbar in tablet portrait orientation */
+      .feed::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      .page-search .page-content.scrollable::-webkit-scrollbar,
+      .page-notifications .page-content.scrollable::-webkit-scrollbar,
+      .page-account .page-content.scrollable::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      /* Hide the browser scrollbar on the right edge */
+      .browser-scrollbar {
+        display: none !important;
+      }
+    }
+
+    /* Hide mobile create post button on tablets in landscape orientation */
+    @media (min-width: 901px) and (max-width: 1024px) and (orientation: landscape) {
+      .mobile-create-post-btn {
+        display: none !important;
       }
     }
   </style>
@@ -289,16 +645,16 @@
     <!-- НОВОЕ МОБИЛЬНОЕ МЕНЮ -->
   <nav class="mobile-bottom-nav">
     <button class="nav-item nav-item-active" data-page="home">
-      <img src="menu-icons/feed.svg" alt="Лента" class="nav-icon">
+      <img src="" alt="Лента" class="nav-icon" data-icon="feed.svg">
     </button>
     <button class="nav-item" data-page="search">
-      <img src="menu-icons/explore.svg" alt="Поиск" class="nav-icon">
+      <img src="" alt="Поиск" class="nav-icon" data-icon="explore.svg">
     </button>
     <button class="nav-item" data-page="notifications">
-      <img src="menu-icons/notifications.svg" alt="Уведомления" class="nav-icon">
+      <img src="" alt="Уведомления" class="nav-icon" data-icon="notifications.svg">
     </button>
     <button class="nav-item" data-page="account">
-      <img src="menu-icons/user.svg" alt="Аккаунт" class="nav-icon">
+      <img src="" alt="Аккаунт" class="nav-icon" data-icon="user.svg">
     </button>
   </nav>
 
@@ -354,6 +710,6 @@
   <div class="browser-scrollbar"></div>
 
   <!-- Подключение JavaScript -->
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

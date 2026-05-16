@@ -860,6 +860,64 @@ body {
   transition: all 0.3s ease;
 }
 
+/* Показываем кнопку "+" на планшетах в вертикальной ориентации */
+@media (max-width: 1024px) and (orientation: portrait) {
+  .mobile-create-post-btn {
+    display: block !important;
+  }
+}
+
+/* Показываем кнопку "+" на телефонах в горизонтальной ориентации */
+@media (max-width: 900px) and (orientation: landscape) {
+  .mobile-create-post-btn {
+    display: block !important;
+  }
+
+  /* Hide scrollbar thumb in landscape phone orientation */
+  .feed::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .feed::-webkit-scrollbar-thumb {
+    display: none !important;
+  }
+
+  .page-search .page-content.scrollable::-webkit-scrollbar,
+  .page-notifications .page-content.scrollable::-webkit-scrollbar,
+  .page-account .page-content.scrollable::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .page-search .page-content.scrollable::-webkit-scrollbar-thumb,
+  .page-notifications .page-content.scrollable::-webkit-scrollbar-thumb,
+  .page-account .page-content.scrollable::-webkit-scrollbar-thumb {
+    display: none !important;
+  }
+}
+
+/* Hide scrollbar thumb in tablet portrait orientation */
+@media (max-width: 1024px) and (orientation: portrait) {
+  .feed::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .feed::-webkit-scrollbar-thumb {
+    display: none !important;
+  }
+
+  .page-search .page-content.scrollable::-webkit-scrollbar,
+  .page-notifications .page-content.scrollable::-webkit-scrollbar,
+  .page-account .page-content.scrollable::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .page-search .page-content.scrollable::-webkit-scrollbar-thumb,
+  .page-notifications .page-content.scrollable::-webkit-scrollbar-thumb,
+  .page-account .page-content.scrollable::-webkit-scrollbar-thumb {
+    display: none !important;
+  }
+}
+
 .mobile-create-post-btn:hover {
   transform: scale(1.05);
   background: rgba(16, 18, 20, 0.6);
@@ -880,6 +938,11 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 10001;
   backdrop-filter: blur(4px);
+}
+
+/* Show mobile create post modal when active */
+.mobile-create-post-modal.active {
+  display: block !important;
 }
 
 .mobile-create-post-content {
@@ -987,6 +1050,307 @@ body {
   justify-content: space-between;
   margin-top: 1rem;
   padding: 0.75rem 0;
+}
+
+/* Мобильная версия для телефонов в горизонтальной ориентации */
+@media (max-width: 640px) and (orientation: landscape) {
+  .app {
+    padding: 0;
+    gap: 0;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .mobile-bottom-nav {
+    display: flex !important;
+    position: fixed;
+    left: 0.682rem;
+    right: 0.682rem;
+    bottom: 0.682rem;
+    height: 3.636rem;
+    padding: 0 0.568rem;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(16, 18, 20, 0.5);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 0.057rem solid rgba(57, 66, 76, 0.65);
+    border-radius: 1.818rem;
+    z-index: 9999;
+    box-shadow: 0 0.455rem 1.364rem rgba(0, 0, 0, 0.35);
+  }
+
+  .mobile-bottom-nav .nav-item {
+    width: 2.955rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: scale(1);
+    padding: 0 0.227rem;
+  }
+
+  /* Убираем hover эффекты для мобильных устройств */
+  .mobile-bottom-nav .nav-item:hover:not(.nav-item-active) {
+    background-color: transparent !important;
+  }
+
+  /* Делаем активный элемент более вытянутым (форма капсулы) с анимацией */
+  .mobile-bottom-nav .nav-item-active {
+    border-radius: 1.705rem;
+    background-color: #EDC33E;
+    transform: scale(1.05);
+    box-shadow: 0 0.227rem 0.682rem rgba(237, 195, 62, 0.3);
+    padding: 0 0.795rem;
+  }
+
+  .app {
+    padding-bottom: 5.227rem;
+  }
+
+  /* Отодвигаем посты вверх, чтобы меню их не закрывало */
+  body {
+    padding-bottom: 3.977rem;
+  }
+
+  .main-content {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .page {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .page-home {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Стили для постов на мобильной версии - слитные без фона, до краев экрана */
+  .posts-list {
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .post {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    background-color: transparent;
+    border: none;
+    border-top: 0.0625rem solid #2a2a2d;
+    margin: 0;
+    padding: 1.1rem;
+    width: 100%;
+  }
+
+  .post-content {
+    background-color: transparent;
+  }
+
+  .post-image-wrapper {
+    background-color: #222224;
+    border-radius: 1.25rem;
+  }
+
+  .post + .post {
+    border-top: 0.0625rem solid #2a2a2d;
+  }
+
+  .posts-list .post:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-top: 0;
+    border-top: none;
+  }
+
+  .posts-list .post:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 0;
+  }
+
+  /* Hide create post block on mobile */
+  body .main-content .page-home .feed .create-post {
+    display: none !important;
+  }
+
+  .create-post-inner {
+    border-radius: 2rem;
+    border: 0.0625rem solid #2a2a2d;
+  }
+
+  .feed {
+    padding: 0;
+  }
+
+  /* Показываем мобильную кнопку создания поста */
+  .mobile-create-post-btn {
+    display: block !important;
+  }
+}
+
+/* Мобильная версия для планшетов в вертикальной ориентации */
+@media (max-width: 1024px) and (orientation: portrait) {
+  .app {
+    padding: 0;
+    gap: 0;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .mobile-bottom-nav {
+    display: flex !important;
+    position: fixed;
+    left: 0.682rem;
+    right: 0.682rem;
+    bottom: 0.682rem;
+    height: 3.636rem;
+    padding: 0 0.568rem;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(16, 18, 20, 0.5);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 0.057rem solid rgba(57, 66, 76, 0.65);
+    border-radius: 1.818rem;
+    z-index: 9999;
+    box-shadow: 0 0.455rem 1.364rem rgba(0, 0, 0, 0.35);
+  }
+
+  .mobile-bottom-nav .nav-item {
+    width: 2.955rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: scale(1);
+    padding: 0 0.227rem;
+  }
+
+  /* Убираем hover эффекты для мобильных устройств */
+  .mobile-bottom-nav .nav-item:hover:not(.nav-item-active) {
+    background-color: transparent !important;
+  }
+
+  /* Делаем активный элемент более вытянутым (форма капсулы) с анимацией */
+  .mobile-bottom-nav .nav-item-active {
+    border-radius: 1.705rem;
+    background-color: #EDC33E;
+    transform: scale(1.05);
+    box-shadow: 0 0.227rem 0.682rem rgba(237, 195, 62, 0.3);
+    padding: 0 0.795rem;
+  }
+
+  .app {
+    padding-bottom: 5.227rem;
+  }
+
+  /* Отодвигаем посты вверх, чтобы меню их не закрывало */
+  body {
+    padding-bottom: 3.977rem;
+  }
+
+  .main-content {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .page {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .page-home {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Стили для постов на мобильной версии - слитные без фона, до краев экрана */
+  .posts-list {
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .post {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    background-color: transparent;
+    border: none;
+    border-top: 0.0625rem solid #2a2a2d;
+    margin: 0;
+    padding: 1.1rem;
+    width: 100%;
+  }
+
+  .post-content {
+    background-color: transparent;
+  }
+
+  .post-image-wrapper {
+    background-color: #222224;
+    border-radius: 1.25rem;
+  }
+
+  .post + .post {
+    border-top: 0.0625rem solid #2a2a2d;
+  }
+
+  .posts-list .post:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-top: 0;
+    border-top: none;
+  }
+
+  .posts-list .post:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 0;
+  }
+
+  /* Hide create post block on mobile */
+  body .main-content .page-home .feed .create-post {
+    display: none !important;
+  }
+
+  .create-post-inner {
+    border-radius: 2rem;
+    border: 0.0625rem solid #2a2a2d;
+  }
+
+  .feed {
+    padding: 0;
+  }
+
+  /* Показываем мобильную кнопку создания поста */
+  .mobile-create-post-btn {
+    display: block !important;
+  }
+
+  /* Фиксируем проблему с аватарками - устанавливаем правильные отступы */
+  .post-avatar {
+    width: 2.4rem !important;
+    height: 2.4rem !important;
+    margin-right: 0.8rem;
+  }
+
+  .post-input-avatar {
+    width: 2.4rem !important;
+    height: 2.4rem !important;
+    left: 0.5rem;
+  }
 }
 
 @media (max-width: 640px) {
